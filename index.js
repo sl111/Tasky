@@ -52,6 +52,9 @@ const loadinitialtaskcards=()=>{
 
 };
 
+const updatelocalstorage=()=>
+localStorage.setItem("tasky",JSON.stringify({cards:globalstore}));
+
 // id is unique
 const savechanges=() =>{
     const taskdata={
@@ -73,7 +76,7 @@ const savechanges=() =>{
     //local storage->interface->programming
 
     //localStorage.setItem("tasky",{cards:globalstore}); //this gave op of obect:object , so convert it to string
-    localStorage.setItem("tasky", JSON.stringify({cards: globalstore}));
+    updatelocalstorage();
     // setItem - interface provided to woork with the local storage
     //key (tasky) -> data {card:[{...}]}
    //to accesslocal storae >> : application :storage : local storage : ur url
@@ -90,10 +93,10 @@ const deletecard=(event)=>{
   const tagname = event.target.tagName; //BUTTON
   
   //filter -> to delete some things
-  const newupdatedarray= globalstore.filter(
+  globalstore= globalstore.filter(
     (cardobject)=>cardobject.id !== targetid
   );
-  globalstore=newupdatedarray;
+  
 
   /*newupdatedarray.map((cardobject)=>{
     const createnewcard=newcard(cardobject);
@@ -102,18 +105,25 @@ const deletecard=(event)=>{
 
   //access dom to remove them
 
+  updatelocalstorage();
+  // update local storage also
+
   if(tagname==="BUTTON"){
     // 4 - task-container
-    return event.target.parentNode.parentNode.parentNode. 
-    parentNode.removechild(
+    /* can use : return return event.target.parentNode.parentNode.parentNode. 
+    parentNode.removeChild*/
+    return taskcontainer.removeChild(
       // hey task container remove this child - col-lg-4
       event.target.parentNode.parentNode.parentNode
     );
-  };return event.target.parentNode.parentNode.parentNode. 
-    parentNode.removechild(
+  } 
+  /*can use : return event.target.parentNode.parentNode.parentNode. 
+  parentNode.parentNode.removeChild*/
+  return taskcontainer.removeChild(
       // hey task container remove this child (icon)
       event.target.parentNode.parentNode.parentNode.parentNode
     );
+
 
   };
 
